@@ -14,9 +14,14 @@ export const getClients = () =>
   });
 
   export const login = async (credentials) => {
-      const response = await Request.post('/login', credentials);
-      return response.data;
-    } 
+    try {
+      const res = await Request.post('/api/login', credentials); 
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
   
 
 export const getClientById = (id) =>
@@ -70,10 +75,6 @@ export const deleteClient = (clientId) =>
       });
   });
 
-
-
-  // Other api calls remain unchanged
-  
   export const tryLoginWithToken = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -81,17 +82,15 @@ export const deleteClient = (clientId) =>
         throw new Error('No token found');
       }
   
-      const response = await Request.get('/validateToken', {
+      // Update the URL to match the backend route
+      const response = await Request.get('/api/token', {
         headers: { Authorization: `Bearer ${token}` }
       });
   
-      // If the token is valid, the backend should respond with success status
-      // The structure of the return statement depends on your backend response
       return response.data;
     } catch (error) {
-      // Handle any errors
       console.error("Error during token validation:", error);
-      throw error; // Or handle it based on your application's needs
+      throw error;
     }
   };
   
