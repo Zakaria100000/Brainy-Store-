@@ -37,16 +37,20 @@ export default function LoginPage() {
   const tryLogin = async () => {
     try {
       const res = await tryLoginWithToken();
-      // TODO : AUTO CONNECT
-      // if (res.status === 200) navigate('/dashboard');
+      if (res) {
+        // Navigate to the dashboard if the token is valid
+        navigate('/dashboard', { replace: true });
+      }
     } catch (error) {
       console.log(error);
+      // If there's an error, we do nothing and let the user attempt to log in manually
     }
   };
+
   useEffect(() => {
     tryLogin();
-  });
-
+  }, [navigate]);
+  
   return (
     <>
       <Helmet>

@@ -24,17 +24,26 @@ export default function LoginForm() {
     setPassword(e.target.value);
   };
 
+ 
   const handleSubmit = async () => {
     setLoading(true);
     try {
       const res = await login({ email, password });
       if (res.status !== 200) throw new Error('Invalid');
       localStorage.setItem('token', res.data.token);
-      localStorage.setItem('admin', JSON.stringify(res.data.admin));
-      setUserInformations(res.data.admin);
-      navigate('/dashboard', { replace: true }); // Redirect to dashboard page
+  
+      // Set isAdmin in localStorage to manage admin permissions
+      // This assumes res.data contains a property indicating if the user is an admin
+      localStorage.setItem('isAdmin', JSON.stringify(res.data.isAdmin));
+  
+      // Update user information in context
+      setUserInformations(res.data);
+  
+      // Navigate to the dashboard for both admin and client
+      navigate('/dashboard', { replace: true });
     } catch (error) {
       console.error(error);
+      // Handle login failure (e.g., show an error message)
     } finally {
       setLoading(false);
     }
@@ -45,6 +54,8 @@ export default function LoginForm() {
       handleSubmit();
     }
   };
+
+ 
 
   return (
     <>
