@@ -14,7 +14,7 @@ export const getClients = () =>
   });
 
   export const login = async (credentials) => {
-      const response = await Request.post('/signin', credentials);
+      const response = await Request.post('/login', credentials);
       return response.data;
     } 
   

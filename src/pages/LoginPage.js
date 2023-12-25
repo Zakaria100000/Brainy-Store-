@@ -9,6 +9,7 @@ import { Container, Typography } from '@mui/material';
 import Logo from '../components/logo';
 // sections
 import { LoginForm } from '../sections/auth/login';
+import { tryLoginWithToken } from '../api/client';
 
 // ----------------------------------------------------------------------
 
